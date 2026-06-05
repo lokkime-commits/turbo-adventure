@@ -1,0 +1,22 @@
+# Напиши программу "Банковский счёт":
+# 1. Создай глобальную переменную balance = 1000
+# 2. Создай функцию deposit(amount) — увеличивает баланс
+# 3. Создай функцию withdraw(amount) — уменьшает баланс (если хватает денег)
+# 4. Создай функцию show_balance() — выводит баланс
+# 5. Протестируй: положи 500, сними 200, покажи баланс
+
+balance = 1000
+def deposit(amount):
+    global balance
+    balance = balance + amount
+def withdraw(amount):
+    global balance
+    if  balance >= amount:
+        balance = balance - amount
+    else:
+        print(f"Недостаточно средств! Доступно: {balance}")
+def show_balance():
+    print(f"Баланс: {balance}")
+deposit(500)
+withdraw(200)
+show_balance()
