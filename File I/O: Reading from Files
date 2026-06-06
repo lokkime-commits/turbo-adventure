@@ -1,0 +1,10 @@
+Создай файл quotes.txt с тремя любыми цитатами (каждая с новой строки)
+Напиши программу, которая:
+Открывает файл для чтения (с with и encoding="utf-8")
+Читает все строки методом readlines()
+Выводит каждую цитату с порядковым номером
+
+with open("quotes.txt", "r", encoding="utf-8") as file:
+    lines = file.readlines()
+    for i, line in enumerate(lines, start=1):   
+        print(f"{i}. {line.strip()}")
