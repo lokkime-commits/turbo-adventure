@@ -1,0 +1,38 @@
+Программа «Безопасный калькулятор»:
+Спрашивает у пользователя два числа
+Спрашивает операцию (+, -, *, /)
+Выполняет операцию
+Обрабатывает ошибки:
+Если ввели не число → ValueError
+Если деление на ноль → ZeroDivisionError
+Если неизвестная операция → вывод сообщения
+Программа не должна падать ни при каких обстоятельствах
+
+print("Безопасный калькулятор:")
+try:
+    # Ввод чисел (может быть ValueError)
+    number1 = int(input("Первое число: "))
+    number2 = int(input("Второе число: ")) 
+    # Ввод операции
+    operation = input("Назови операцию (+, -, *, /): ")
+    # Выполнение операции (может быть ZeroDivisionError)
+    if operation == "+":
+        result = number1 + number2
+    elif operation == "-":
+        result = number1 - number2
+    elif operation == "*":
+        result = number1 * number2
+    elif operation == "/":
+        result = number1 / number2
+    else:
+        result = None
+        print("Неизвестная операция!")
+    # Если операция была правильной — выводим результат
+    if result is not None:
+        print(f"{number1} {operation} {number2} = {result}")
+except ValueError:
+    print("Ошибка! Нужно ввести именно число.")
+except ZeroDivisionError:
+    print("Ошибка! На ноль делить нельзя.")
+finally:
+    print("Программа завершена.")
