@@ -18,3 +18,16 @@ def is_divisible(a, b):
     return a % b == 0
 print(is_divisible(10, 2))
 print(is_divisible(10, 3))
+
+
+
+#Напиши функцию greet_user, которая принимает имя и возраст и возвращает строку:
+#"Привет, {имя}! Тебе {возраст} лет."
+#print(greet_user("Илья", 37))  # Привет, Илья! Тебе 37 лет.
+#print(greet_user("Анна", 25))  # Привет, Анна! Тебе 25 лет.
+
+def greet_user(name, age):
+    return f"Привет, {name}! Тебе {age} лет."
+
+print(greet_user("Илья", 37))   # Привет, Илья! Тебе 37 лет.
+print(greet_user("Анна", 25))   # Привет, Анна! Тебе 25 лет.
