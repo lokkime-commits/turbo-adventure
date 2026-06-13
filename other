@@ -8,3 +8,13 @@ print(get_last_element([1, 2, 3, 4, 5]))
 print(get_last_element(["a", "b", "c"]))
 
 
+#Напиши функцию is_divisible, которая принимает два числа: a и b.
+#Возвращает True, если a делится на b без остатка, и False — если нет.
+#print(is_divisible(10, 2))  # True (10 / 2 = 5, остаток 0)
+#print(is_divisible(10, 3))  # False (10 / 3 = 3, остаток 1)
+#Подсказка: оператор % возвращает остаток от деления. Если остаток равен 0 — значит, делится без остатка.
+
+def is_divisible(a, b):
+    return a % b == 0
+print(is_divisible(10, 2))
+print(is_divisible(10, 3))
