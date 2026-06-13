@@ -1,0 +1,8 @@
+#Напиши функцию get_last_element, которая принимает список и возвращает его последний элемент.
+#print(get_last_element([1, 2, 3, 4, 5]))  # 5
+#print(get_last_element(["a", "b", "c"]))  # c
+
+def get_last_element(text):
+    return text[-1]
+print(get_last_element([1, 2, 3, 4, 5]))
+print(get_last_element(["a", "b", "c"]))
