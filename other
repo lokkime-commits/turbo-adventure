@@ -6,3 +6,5 @@ def get_last_element(text):
     return text[-1]
 print(get_last_element([1, 2, 3, 4, 5]))
 print(get_last_element(["a", "b", "c"]))
+
+
