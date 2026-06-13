@@ -104,7 +104,28 @@ print(get_first([10, 20, 30]))
 print(get_first(["a", "b", "c"])) 
 
 
+#Напиши функцию create_greeting, которая принимает имя и возвращает строку:
+#"Привет, {name}!"
+#print(create_greeting("Илья"))   # Привет, Илья!
+#print(create_greeting("Анна"))   # Привет, Анна! 
 
+def create_greeting(name):
+    return f"Привет, {name}!"
+print(create_greeting("Илья"))
+print(create_greeting("Анна"))
+
+
+#Напиши функцию is_even, которая принимает число и возвращает:
+#"Чётное", если число чётное
+#"Нечётное", если число нечётное
+#print(is_even(4))   # Чётное
+#print(is_even(7))   # Нечётное
+#Подсказка: оператор % возвращает остаток от деления. Если number % 2 == 0 — число чётное.
+
+def is_even(x):
+    return x % 2 == 0
+print(is_even(4))
+print(is_even(7))
 
 
 
