@@ -93,6 +93,16 @@ print(repeat("Hi", 3))   # HiHiHi
 print(repeat("!", 5))
 
 
+#Напиши функцию get_first, которая принимает список и возвращает первый элемент.
+#print(get_first([10, 20, 30]))    # 10
+#print(get_first(["a", "b", "c"])) # a
+#Подсказка: первый элемент списка имеет индекс 0.
+
+def get_first(text):
+    return text[0]
+print(get_first([10, 20, 30]))
+print(get_first(["a", "b", "c"])) 
+
 
 
 
