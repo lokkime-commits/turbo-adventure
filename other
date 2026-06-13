@@ -31,3 +31,33 @@ def greet_user(name, age):
 
 print(greet_user("Илья", 37))   # Привет, Илья! Тебе 37 лет.
 print(greet_user("Анна", 25))   # Привет, Анна! Тебе 25 лет.
+
+# Напиши функцию get_sum, которая принимает два числа и возвращает их сумму
+def get_sum(a, b):
+    return a + b
+
+print(get_sum(5, 3))  # 8
+
+
+# Напиши функцию is_positive, которая принимает число и возвращает:
+# "Положительное", если число > 0
+# "Ноль", если число == 0
+# "Отрицательное", если число < 0
+
+def is_positive(x):
+    if x > 0:
+        return "Положительное"
+    elif x == 0:
+        return "Ноль"
+    elif x < 0:
+        return "Отрицательное"
+print(is_positive(5))
+print(is_positive(0))
+print(is_positive(-7))
+
+
+
+
+
+
+
