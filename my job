@@ -74,3 +74,312 @@ def main():
 
 # Запуск программы
 main()
+
+
+📋 Проект: Список дел (Todo List)
+Программа умеет:
+Добавлять задачу
+Удалять задачу по номеру
+Показывать все задачи
+Выход из программы
+
+# Функция: показать все задачи
+def show_tasks(tasks):
+    if not tasks:
+        print("\n📭 Список задач пуст.")
+        return
+    
+    print("\n📋 Твои задачи:")
+    for i, task in enumerate(tasks, start=1):
+        print(f"{i}. {task}")
+
+# Функция: добавить задачу
+def add_task(tasks):
+    task = input("Введи задачу: ")
+    if task.strip():  # проверка, что задача не пустая
+        tasks.append(task)
+        print(f"✅ Задача '{task}' добавлена.")
+    else:
+        print("❌ Задача не может быть пустой.")
+
+# Функция: удалить задачу
+def delete_task(tasks):
+    if not tasks:
+        print("📭 Нет задач для удаления.")
+        return
+    
+    show_tasks(tasks)
+    try:
+        num = int(input("Введите номер задачи для удаления: "))
+        if 1 <= num <= len(tasks):
+            removed = tasks.pop(num - 1)
+            print(f"🗑️ Задача '{removed}' удалена.")
+        else:
+            print(f"❌ Номер должен быть от 1 до {len(tasks)}.")
+    except ValueError:
+        print("❌ Нужно ввести число.")
+
+# Главная функция: меню
+def main():
+    tasks = []
+    
+    while True:
+        print("\n" + "="*30)
+        print("📌 МЕНЮ СПИСКА ДЕЛ")
+        print("1. Показать задачи")
+        print("2. Добавить задачу")
+        print("3. Удалить задачу")
+        print("4. Выйти")
+        print("="*30)
+        
+        choice = input("Выбери пункт меню (1-4): ")
+        
+        if choice == "1":
+            show_tasks(tasks)
+        elif choice == "2":
+            add_task(tasks)
+        elif choice == "3":
+            delete_task(tasks)
+        elif choice == "4":
+            print("👋 Пока! Задачи сохранены в памяти на этот раз.")
+            break
+        else:
+            print("❌ Неверный выбор. Введи 1, 2, 3 или 4.")
+
+# Запуск программы
+if __name__ == "__main__":
+    main()
+
+📁 Шаг 1: Сохранение задач в файл
+Зачем:
+Сейчас задачи живут в памяти, пока работает программа. Закрыл — всё пропало. Нужно сохранять их в файл.
+
+Как это работает:
+python
+# Сохранить задачи в файл
+def save_tasks(tasks):
+    with open("tasks.txt", "w", encoding="utf-8") as file:
+        for task in tasks:
+            file.write(task + "\n")  # каждая задача на новой строке
+
+# Загрузить задачи из файла
+def load_tasks():
+    tasks = []
+    try:
+        with open("tasks.txt", "r", encoding="utf-8") as file:
+            for line in file:
+                tasks.append(line.strip())  # убираем \n
+    except FileNotFoundError:
+        # Файла нет — не страшно, вернём пустой список
+        pass
+    return tasks
+Где вызывать:
+После добавления или удаления задачи → save_tasks(tasks)
+
+При запуске программы → tasks = load_tasks()
+
+✏️ Шаг 2: Редактирование задачи
+Зачем:
+Исправить опечатку или изменить формулировку без удаления и добавления заново.
+
+Как работает:
+python
+def edit_task(tasks):
+    if not tasks:
+        print("📭 Нет задач для редактирования.")
+        return
+    
+    show_tasks(tasks)
+    try:
+        num = int(input("Введите номер задачи для редактирования: "))
+        if 1 <= num <= len(tasks):
+            new_task = input("Введите новую задачу: ")
+            if new_task.strip():
+                old = tasks[num - 1]
+                tasks[num - 1] = new_task
+                save_tasks(tasks)  # сразу сохраняем
+                print(f"✅ Задача '{old}' изменена на '{new_task}'.")
+            else:
+                print("❌ Задача не может быть пустой.")
+        else:
+            print(f"❌ Номер должен быть от 1 до {len(tasks)}.")
+    except ValueError:
+        print("❌ Нужно ввести число.")
+🔍 Шаг 3: Поиск задач
+Зачем:
+Быстро найти задачу по ключевому слову, когда их много.
+
+Как работает:
+python
+def find_task(tasks):
+    if not tasks:
+        print("📭 Нет задач для поиска.")
+        return
+    
+    keyword = input("🔍 Введите слово для поиска: ").lower()
+    found = []
+    
+    for i, task in enumerate(tasks, start=1):
+        if keyword in task.lower():
+            found.append((i, task))
+    
+    if found:
+        print(f"\n📋 Найдено задач: {len(found)}")
+        for num, task in found:
+            print(f"{num}. {task}")
+    else:
+        print("❌ Ничего не найдено.")
+
+
+✅ Полный улучшенный код
+python
+# ========== ФУНКЦИИ РАБОТЫ С ФАЙЛОМ ==========
+
+def save_tasks(tasks):
+    """Сохраняет задачи в файл"""
+    with open("tasks.txt", "w", encoding="utf-8") as file:
+        for task in tasks:
+            file.write(task + "\n")
+
+def load_tasks():
+    """Загружает задачи из файла"""
+    tasks = []
+    try:
+        with open("tasks.txt", "r", encoding="utf-8") as file:
+            for line in file:
+                tasks.append(line.strip())
+    except FileNotFoundError:
+        pass  # файла нет — вернём пустой список
+    return tasks
+
+# ========== ФУНКЦИИ РАБОТЫ СО ЗАДАЧАМИ ==========
+
+def show_tasks(tasks):
+    """Показывает все задачи"""
+    if not tasks:
+        print("\n📭 Список задач пуст.")
+        return
+    
+    print("\n📋 ТВОИ ЗАДАЧИ:")
+    print("-" * 30)
+    for i, task in enumerate(tasks, start=1):
+        print(f"{i}. {task}")
+    print("-" * 30)
+
+def add_task(tasks):
+    """Добавляет новую задачу"""
+    task = input("📝 Введи задачу: ")
+    if task.strip():
+        tasks.append(task)
+        save_tasks(tasks)
+        print(f"✅ Задача '{task}' добавлена.")
+    else:
+        print("❌ Задача не может быть пустой.")
+
+def delete_task(tasks):
+    """Удаляет задачу по номеру"""
+    if not tasks:
+        print("📭 Нет задач для удаления.")
+        return
+    
+    show_tasks(tasks)
+    try:
+        num = int(input("🗑️ Введите номер задачи для удаления: "))
+        if 1 <= num <= len(tasks):
+            removed = tasks.pop(num - 1)
+            save_tasks(tasks)
+            print(f"✅ Задача '{removed}' удалена.")
+        else:
+            print(f"❌ Номер должен быть от 1 до {len(tasks)}.")
+    except ValueError:
+        print("❌ Нужно ввести число.")
+
+def edit_task(tasks):
+    """Редактирует задачу по номеру"""
+    if not tasks:
+        print("📭 Нет задач для редактирования.")
+        return
+    
+    show_tasks(tasks)
+    try:
+        num = int(input("✏️ Введите номер задачи для редактирования: "))
+        if 1 <= num <= len(tasks):
+            new_task = input("📝 Введите новую задачу: ")
+            if new_task.strip():
+                old = tasks[num - 1]
+                tasks[num - 1] = new_task
+                save_tasks(tasks)
+                print(f"✅ Задача '{old}' изменена на '{new_task}'.")
+            else:
+                print("❌ Задача не может быть пустой.")
+        else:
+            print(f"❌ Номер должен быть от 1 до {len(tasks)}.")
+    except ValueError:
+        print("❌ Нужно ввести число.")
+
+def find_task(tasks):
+    """Ищет задачи по ключевому слову"""
+    if not tasks:
+        print("📭 Нет задач для поиска.")
+        return
+    
+    keyword = input("🔍 Введите слово для поиска: ").lower()
+    found = []
+    
+    for i, task in enumerate(tasks, start=1):
+        if keyword in task.lower():
+            found.append((i, task))
+    
+    if found:
+        print(f"\n📋 Найдено задач: {len(found)}")
+        print("-" * 30)
+        for num, task in found:
+            print(f"{num}. {task}")
+        print("-" * 30)
+    else:
+        print("❌ Ничего не найдено.")
+
+# ========== ГЛАВНАЯ ФУНКЦИЯ ==========
+
+def main():
+    """Главное меню программы"""
+    tasks = load_tasks()
+    
+    while True:
+        print("\n" + "=" * 35)
+        print("   📌 МОЙ СПИСОК ДЕЛ")
+        print("=" * 35)
+        print("1. 📋 Показать задачи")
+        print("2. ➕ Добавить задачу")
+        print("3. ✏️ Редактировать задачу")
+        print("4. 🗑️ Удалить задачу")
+        print("5. 🔍 Поиск задач")
+        print("6. 🚪 Выход")
+        print("=" * 35)
+        
+        choice = input("Выбери пункт меню (1-6): ")
+        
+        if choice == "1":
+            show_tasks(tasks)
+        elif choice == "2":
+            add_task(tasks)
+        elif choice == "3":
+            edit_task(tasks)
+        elif choice == "4":
+            delete_task(tasks)
+        elif choice == "5":
+            find_task(tasks)
+        elif choice == "6":
+            print("\n👋 До встречи! Задачи сохранены в файл.")
+            break
+        else:
+            print("❌ Неверный выбор. Введи число от 1 до 6.")
+
+# ========== ЗАПУСК ==========
+if __name__ == "__main__":
+    main()
+
+
+
+
+
