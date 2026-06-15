@@ -20,3 +20,57 @@ def show_balance():
 deposit(500)
 withdraw(200)
 show_balance()
+
+
+
+📋 Пример проекта: "Калькулятор чаевых"
+Программа считает, сколько оставить чаевых в ресторане.
+Что умеет программа:
+Спрашивает сумму счёта
+Спрашивает процент чаевых
+Спрашивает, сколько человек делят счёт
+Считает:
+сумму чаевых
+общую сумму (счёт + чаевые)
+сумму на человека
+Выводит результат
+
+
+# Функция для ввода числа (с защитой от ошибок)
+def get_number(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Ошибка! Введи число.")
+
+# Функция для расчёта чаевых
+def calculate_tip(bill, tip_percent):
+    return bill * tip_percent / 100
+
+# Функция для расчёта общей суммы
+def calculate_total(bill, tip):
+    return bill + tip
+
+# Функция для расчёта суммы на человека
+def calculate_per_person(total, people):
+    return total / people
+
+# Главная функция (управляет всем)
+def main():
+    print("💵 Калькулятор чаевых")
+    
+    bill = get_number("Сумма счёта: ")
+    tip_percent = get_number("Процент чаевых: ")
+    people = get_number("Количество человек: ")
+    
+    tip = calculate_tip(bill, tip_percent)
+    total = calculate_total(bill, tip)
+    per_person = calculate_per_person(total, people)
+    
+    print(f"\n💰 Чаевые: {tip:.2f} ₽")
+    print(f"🧾 Общая сумма: {total:.2f} ₽")
+    print(f"👥 С каждого: {per_person:.2f} ₽")
+
+# Запуск программы
+main()
