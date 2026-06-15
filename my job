@@ -380,6 +380,321 @@ if __name__ == "__main__":
     main()
 
 
+📅 Шаг 1: Добавляем дедлайны (дату выполнения)
+Как хранить задачу с дедлайном?
+Вместо простой строки будем хранить словарь для каждой задачи:
+
+python
+task = {
+    "title": "Купить хлеб",
+    "deadline": "2025-06-20",
+    "priority": "средний",
+    "category": "личное"
+}
+Как сохранять в файл и загружать?
+Используем модуль json — он умеет превращать словари в текст и обратно.
+
+python
+import json
+
+def save_tasks(tasks):
+    with open("tasks.json", "w", encoding="utf-8") as file:
+        json.dump(tasks, file, ensure_ascii=False, indent=2)
+
+def load_tasks():
+    try:
+        with open("tasks.json", "r", encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+📋 Шаг 2: Обновляем функции для работы со словарями
+Показать задачи (с дедлайнами и приоритетами)
+python
+def show_tasks(tasks):
+    if not tasks:
+        print("\n📭 Список задач пуст.")
+        return
+    
+    print("\n📋 ТВОИ ЗАДАЧИ:")
+    print("-" * 50)
+    for i, task in enumerate(tasks, start=1):
+        deadline_emoji = "⏰" if task["deadline"] else "📅"
+        priority_emoji = {
+            "высокий": "🔴",
+            "средний": "🟡",
+            "низкий": "🟢"
+        }.get(task.get("priority", "средний"), "⚪")
+        
+        print(f"{i}. {priority_emoji} {task['title']} {deadline_emoji} {task['deadline']}")
+    print("-" * 50)
+Добавить задачу с дедлайном
+python
+def add_task(tasks):
+    title = input("📝 Введи задачу: ")
+    if not title.strip():
+        print("❌ Задача не может быть пустой.")
+        return
+    
+    deadline = input("📅 Введи дату выполнения (ГГГГ-ММ-ДД) или Enter: ")
+    priority = input("🎯 Приоритет (высокий/средний/низкий): ").lower()
+    if priority not in ["высокий", "средний", "низкий"]:
+        priority = "средний"
+    
+    category = input("📂 Категория (работа/личное/учёба): ").lower()
+    if category not in ["работа", "личное", "учёба"]:
+        category = "другое"
+    
+    task = {
+        "title": title,
+        "deadline": deadline if deadline else "без даты",
+        "priority": priority,
+        "category": category
+    }
+    
+    tasks.append(task)
+    save_tasks(tasks)
+    print(f"✅ Задача '{title}' добавлена!")
+🎯 Шаг 3: Поиск по категориям и приоритетам
+python
+def find_by_category(tasks):
+    category = input("📂 Введи категорию (работа/личное/учёба): ").lower()
+    found = [task for task in tasks if task.get("category") == category]
+    
+    if found:
+        print(f"\n📋 Задачи в категории '{category}':")
+        for i, task in enumerate(found, start=1):
+            print(f"{i}. {task['title']} (до {task['deadline']})")
+    else:
+        print("❌ Ничего не найдено.")
+🖼️ Шаг 4: Графический интерфейс (tkinter) — общий обзор
+Если захотим сделать окно вместо консоли — используем встроенную библиотеку tkinter.
+
+python
+import tkinter as tk
+from tkinter import messagebox
+
+def add_task_gui():
+    task_text = entry.get()
+    if task_text:
+        listbox.insert(tk.END, task_text)
+        entry.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Ошибка", "Задача не может быть пустой!")
+
+# Создаём окно
+root = tk.Tk()
+root.title("Список дел")
+
+entry = tk.Entry(root, width=40)
+entry.pack(pady=10)
+
+btn = tk.Button(root, text="Добавить задачу", command=add_task_gui)
+btn.pack()
+
+listbox = tk.Listbox(root, width=50, height=15)
+listbox.pack(pady=10)
+
+root.mainloop()
+
+
+
+
+        tk.Label(filter_frame, text="Категория:").pack(side=tk.LEFT, padx=5)
+        self.category_filter = ttk.Combobox(filter_frame, values=["все", "работа", "личное", "учёба", "другое"], width=10)
+        self.category_filter.pack(side=tk.LEFT, padx=5)
+        self.category_filter.set("все")
+        
+        tk.Label(filter_frame, text="Приоритет:").pack(side=tk.LEFT, padx=5)
+        self.priority_filter = ttk.Combobox(filter_frame, values=["все", "высокий", "средний", "низкий"], width=10)
+        self.priority_filter.pack(side=tk.LEFT, padx=5)
+        self.priority_filter.set("все")
+        
+        tk.Label(filter_frame, text="Поиск:").pack(side=tk.LEFT, padx=5)
+        self.search_entry = tk.Entry(filter_frame, width=15)
+        self.search_entry.pack(side=tk.LEFT, padx=5)
+        
+        tk.Button(filter_frame, text="🔍", command=self.refresh_list).pack(side=tk.LEFT, padx=5)
+        tk.Button(filter_frame, text="🔄 Сброс", command=self.reset_filters).pack(side=tk.LEFT, padx=5)
+        
+        # Список задач
+        list_frame = tk.Frame(self.root)
+        list_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        
+        scrollbar = tk.Scrollbar(list_frame)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.task_listbox = tk.Listbox(list_frame, yscrollcommand=scrollbar.set, font=("Arial", 10), height=15)
+        self.task_listbox.pack(fill=tk.BOTH, expand=True)
+        scrollbar.config(command=self.task_listbox.yview)
+        
+        # Кнопки управления
+        btn_frame = tk.Frame(self.root)
+        btn_frame.pack(pady=10)
+        
+        tk.Button(btn_frame, text="➕ Добавить", command=self.add_task_window, bg="#90EE90", width=12).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="✏️ Редактировать", command=self.edit_task_window, bg="#FFD700", width=12).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="🗑️ Удалить", command=self.delete_task, bg="#FF6347", width=12).pack(side=tk.LEFT, padx=5)
+        
+        # Статус-бар
+        self.status_bar = tk.Label(self.root, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W)
+        self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+    
+    def reset_filters(self):
+        """Сбрасывает все фильтры"""
+        self.category_filter.set("все")
+        self.priority_filter.set("все")
+        self.search_entry.delete(0, tk.END)
+        self.refresh_list()
+    
+    def refresh_list(self):
+        """Обновляет список задач на экране"""
+        self.task_listbox.delete(0, tk.END)
+        
+        # Применяем фильтры
+        filtered = self.tasks
+        filtered = filter_by_category(filtered, self.category_filter.get())
+        filtered = filter_by_priority(filtered, self.priority_filter.get())
+        filtered = search_by_keyword(filtered, self.search_entry.get())
+        
+        # Цвета для приоритетов
+        priority_colors = {
+            "высокий": "🔴",
+            "средний": "🟡",
+            "низкий": "🟢"
+        }
+        
+        for i, task in enumerate(filtered):
+            priority_emoji = priority_colors.get(task.get("priority", "средний"), "⚪")
+            deadline_emoji = "⏰" if task.get("deadline") != "без даты" else "📅"
+            
+            display_text = f"{priority_emoji} {task['title']} [{task['category']}] {deadline_emoji} {task['deadline']}"
+            self.task_listbox.insert(tk.END, display_text)
+        
+        self.status_bar.config(text=f"Всего задач: {len(self.tasks)} | Отфильтровано: {len(filtered)}")
+    
+    def add_task_window(self):
+        """Окно добавления задачи"""
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Добавить задачу")
+        dialog.geometry("400x300")
+        dialog.grab_set()
+        
+        tk.Label(dialog, text="Название задачи:").pack(pady=5)
+        title_entry = tk.Entry(dialog, width=40)
+        title_entry.pack(pady=5)
+        
+        tk.Label(dialog, text="Дедлайн (ГГГГ-ММ-ДД):").pack(pady=5)
+        deadline_entry = tk.Entry(dialog, width=40)
+        deadline_entry.pack(pady=5)
+        
+        tk.Label(dialog, text="Приоритет:").pack(pady=5)
+        priority_combo = ttk.Combobox(dialog, values=["высокий", "средний", "низкий"])
+        priority_combo.pack(pady=5)
+        priority_combo.set("средний")
+        
+        tk.Label(dialog, text="Категория:").pack(pady=5)
+        category_combo = ttk.Combobox(dialog, values=["работа", "личное", "учёба", "другое"])
+        category_combo.pack(pady=5)
+        category_combo.set("личное")
+        
+        def save():
+            if add_task(self.tasks, title_entry.get(), deadline_entry.get(), 
+                       priority_combo.get(), category_combo.get()):
+                self.refresh_list()
+                dialog.destroy()
+        
+        tk.Button(dialog, text="💾 Сохранить", command=save, bg="#90EE90").pack(pady=10)
+    
+    def edit_task_window(self):
+        """Окно редактирования задачи"""
+        selected = self.task_listbox.curselection()
+        if not selected:
+            messagebox.showwarning("Ошибка", "Выберите задачу для редактирования!")
+            return
+        
+        # Находим реальную задачу с учётом фильтров
+        filtered = self.get_filtered_tasks()
+        task_index_in_filtered = selected[0]
+        if task_index_in_filtered >= len(filtered):
+            return
+        
+        task_data = filtered[task_index_in_filtered]
+        # Находим индекс в основном списке
+        real_index = self.tasks.index(task_data)
+        
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Редактировать задачу")
+        dialog.geometry("400x300")
+        dialog.grab_set()
+        
+        tk.Label(dialog, text="Название задачи:").pack(pady=5)
+        title_entry = tk.Entry(dialog, width=40)
+        title_entry.insert(0, task_data["title"])
+        title_entry.pack(pady=5)
+        
+        tk.Label(dialog, text="Дедлайн (ГГГГ-ММ-ДД):").pack(pady=5)
+        deadline_entry = tk.Entry(dialog, width=40)
+        deadline_entry.insert(0, task_data.get("deadline", ""))
+        deadline_entry.pack(pady=5)
+        
+        tk.Label(dialog, text="Приоритет:").pack(pady=5)
+        priority_combo = ttk.Combobox(dialog, values=["высокий", "средний", "низкий"])
+        priority_combo.set(task_data.get("priority", "средний"))
+        priority_combo.pack(pady=5)
+        
+        tk.Label(dialog, text="Категория:").pack(pady=5)
+        category_combo = ttk.Combobox(dialog, values=["работа", "личное", "учёба", "другое"])
+        category_combo.set(task_data.get("category", "личное"))
+        category_combo.pack(pady=5)
+        
+        def save():
+            if update_task(self.tasks, real_index, title_entry.get(), 
+                          deadline_entry.get(), priority_combo.get(), category_combo.get()):
+                self.refresh_list()
+                dialog.destroy()
+        
+        tk.Button(dialog, text="💾 Сохранить", command=save, bg="#FFD700").pack(pady=10)
+    
+    def delete_task(self):
+        """Удаляет выбранную задачу"""
+        selected = self.task_listbox.curselection()
+        if not selected:
+            messagebox.showwarning("Ошибка", "Выберите задачу для удаления!")
+            return
+        
+        # Находим реальную задачу с учётом фильтров
+        filtered = self.get_filtered_tasks()
+        task_index_in_filtered = selected[0]
+        if task_index_in_filtered >= len(filtered):
+            return
+        
+        task_data = filtered[task_index_in_filtered]
+        real_index = self.tasks.index(task_data)
+        
+        if messagebox.askyesno("Подтверждение", f"Удалить задачу '{task_data['title']}'?"):
+            deleted = delete_task(self.tasks, real_index)
+            if deleted:
+                self.refresh_list()
+                messagebox.showinfo("Успех", f"Задача '{deleted['title']}' удалена!")
+    
+    def get_filtered_tasks(self):
+        """Возвращает отфильтрованный список задач"""
+        filtered = self.tasks
+        filtered = filter_by_category(filtered, self.category_filter.get())
+        filtered = filter_by_priority(filtered, self.priority_filter.get())
+        filtered = search_by_keyword(filtered, self.search_entry.get())
+        return filtered
+
+# ========== ЗАПУСК ==========
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = TodoApp(root)
+    root.mainloop()
+
+
+
+
 
 
 
