@@ -130,6 +130,23 @@ my_list = ["а", "б", "в", "г", "д"]
 for i in range(len(my_list)):
     print(f"{i}: {my_list[i]}")
 
+# Дан список чисел: [4, 8, 15, 16, 23, 42]
+# Используй цикл for, чтобы найти и вывести:
+# 1. Сумму всех элементов
+# 2. Количество элементов (используй len())
+# 3. Среднее арифметическое (сумма / количество)
+
+numbers = [4, 8, 15, 16, 23, 42]
+total = 0
+for x in numbers:
+    total = total + x
+count = len(numbers)
+average = total / count
+
+print(total)
+print(count)
+print(average)
+
 🎯 Задание 9 (Урок 9 — цикл while)
 Программа спрашивает пароль.
 Пароль правильный: "secret123".
