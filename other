@@ -140,3 +140,26 @@ name = get_name()
 print(f"Привет, {name}!")
 
 
+# Напиши функцию get_info(name, age, city), которая принимает три параметра
+# и возвращает строку: "Имя: {name}, Возраст: {age}, Город: {city}"
+# Вызови функцию с любыми данными и напечатай результат.
+
+def get_info(name, age, city):
+    return f"Имя: {name}, Возраст: {age}, Город: {city}"
+
+print(get_info("Ilia", 37, "Zelenogradsk"))        
+так правильнее
+
+или
+
+def get_info(name, age, city):
+    print(f"Имя: {name}, Возраст: {age}, Город: {city}")
+
+get_info("Ilia", 37, "Zelenogradsk")
+
+
+
+
+
+
+
