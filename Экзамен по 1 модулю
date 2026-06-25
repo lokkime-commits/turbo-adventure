@@ -491,6 +491,31 @@ numbers = [10, 20, 30, 40, 50]
 random.shuffle(numbers)
 print(numbers)
 
+# Импортируй модуль random
+# Напиши функцию generate_password(length), которая:
+# - генерирует случайный пароль из букв и цифр
+# - возвращает строку длиной length
+# - используй random.choice() и строку "abcdefghijklmnopqrstuvwxyz0123456789"
+# Вызови функцию с длиной 8 и напечатай результат
+
+import random
+
+def generate_password(length):
+    chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    password = ""
+    for i in range(length):
+        password = password + random.choice(chars)
+    return password
+
+result = generate_password(8)
+print(result)
+
+✅ Как правильно
+Нужно:
+Создать строку chars со всеми возможными символами
+В цикле for длиной length брать случайный символ
+Собирать их в строку и возвращать
+
 🎯 Задание 16 (Урок 16 — чтение файлов)
 Вручную создай файл test.txt с одной строкой: "Привет, мир!"
 
