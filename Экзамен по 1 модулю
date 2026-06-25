@@ -470,6 +470,27 @@ import random
 random_number = random.randint (1, 100)
 print(f"A random number between 1 and 100: {random_number}")
 
+# Импортируй модуль random
+# Создай список из трёх имён: ["Анна", "Илья", "Мария"]
+# Выбери случайное имя из списка и выведи его на экран
+Подсказка: используй random.choice(список).
+
+import random
+random_list = random.choice(["Анна", "Илья", "Мария"])
+print(f"{random_list}")
+
+# Импортируй модуль random
+# Создай список чисел: [10, 20, 30, 40, 50]
+# Перемешай список случайным образом (используй random.shuffle())
+# Выведи перемешанный список на экран
+# Подсказка: random.shuffle(список) изменяет список на месте.
+
+import random
+
+numbers = [10, 20, 30, 40, 50]
+random.shuffle(numbers)
+print(numbers)
+
 🎯 Задание 16 (Урок 16 — чтение файлов)
 Вручную создай файл test.txt с одной строкой: "Привет, мир!"
 
