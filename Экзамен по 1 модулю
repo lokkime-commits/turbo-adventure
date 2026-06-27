@@ -525,6 +525,51 @@ with open("test.txt", "r", encoding="utf-8") as file:
     content = file.read()
     print(content)
 
+# Создай файл lines.txt с тремя строками текста (вручную)
+# Напиши программу, которая читает файл построчно (используя readlines())
+# и выводит каждую строку с её номером:
+# 1: строка_1
+# 2: строка_2
+# 3: строка_3
+
+with open("lines.txt", "r", encoding="utf-8") as file:
+    lines = file.readlines()
+    for line in lines:
+        print(line.strip())  Функция `.strip()` удаляет начальные и конечные пробелы, включая символы новой строки.
+
+# Создай файл data.txt с числами (каждое на новой строке):
+# 10
+# 20
+# 30
+# 40
+# 50
+# Напиши программу, которая:
+# 1. Читает файл построчно
+# 2. Преобразует каждую строку в число (int)
+# 3. Находит и выводит сумму всех чисел
+
+total = 0
+with open("data.txt", "r", encoding="utf-8") as file:
+    for line in file:
+        number = int(line.strip())
+        total = total + number
+print(f"сумма всех чисел {total}")
+
+# Напиши программу, которая:
+# 1. Читает файл data.txt
+# 2. Находит и выводит самое большое число в файле
+# 3. Если файл пустой, выводит "Файл пуст"
+# Подсказка: используй переменную max_number = None или max_number = 0.
+max_number = 0
+with open("data.txt", "r", encoding="utf-8") as file:
+    for line in file:
+        number = int(line.strip())
+        if number > max_number:
+            max_number = number
+print(f"самое большое число в файле {max_number}")
+
+
+
 🎯 Задание 17 (Урок 17 — запись в файлы)
 Напиши код, который:
 Открывает файл log.txt для добавления (режим "a")
