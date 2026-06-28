@@ -1,0 +1,138 @@
+1. Переменные и типы данных
+python
+name = "Илья"          # str — строка
+age = 37               # int — целое число
+height = 1.78          # float — дробное число
+is_student = True      # bool — True/False
+Запомни: тип определяется значением, не нужно объявлять.
+
+2. Ввод и вывод
+python
+name = input("Как тебя зовут? ")   # всегда возвращает str
+print(f"Привет, {name}!")           # f-строка — подставляет переменные
+Запомни: input() всегда возвращает строку. Преобразуй в число через int() или float().
+
+3. Условия (if-elif-else)
+python
+if age >= 18:
+    print("Взрослый")
+elif age >= 14:
+    print("Подросток")
+else:
+    print("Ребёнок")
+Запомни: порядок важен. elif проверяется только если предыдущие были False.
+
+4. Циклы
+for — когда знаешь количество повторений
+python
+for i in range(5):          # 0, 1, 2, 3, 4
+    print(i)
+
+for item in list:           # перебор элементов списка
+    print(item)
+while — когда неизвестно, сколько раз
+python
+while password != "12345":
+    password = input("Введи пароль: ")
+Запомни: в while нужно менять условие внутри, иначе бесконечный цикл.
+
+5. Списки
+python
+fruits = ["яблоко", "банан"]   # создание
+fruits.append("груша")           # добавить в конец
+fruits.insert(1, "апельсин")    # вставить по индексу
+fruits.remove("банан")           # удалить по значению
+fruits.pop()                     # удалить последний
+fruits[0]                        # первый элемент
+fruits[-1]                       # последний элемент
+fruits[1:3]                      # срез (элементы с 1 по 2)
+6. Словари
+python
+person = {
+    "name": "Илья",
+    "age": 37
+}
+person["city"] = "Москва"        # добавить
+person["age"] = 38               # изменить
+print(person["name"])            # получить значение
+Запомни: ключи — уникальные. Доступ по ключу, а не по индексу.
+
+7. Функции
+python
+def add(a, b):
+    return a + b
+
+result = add(3, 5)    # result = 8
+Запомни:
+
+return — возвращает значение и завершает функцию
+
+print() — только выводит, но не возвращает
+
+Без return функция возвращает None
+
+8. Область видимости
+python
+x = 10                # глобальная переменная
+
+def func():
+    x = 5             # локальная переменная (не трогает глобальную)
+    print(x)          # 5
+
+def change():
+    global x          # используем глобальную
+    x = x + 1
+
+func()               # 5
+print(x)             # 10
+change()             
+print(x)             # 11
+9. Модули (random)
+python
+import random
+
+random.randint(1, 10)          # случайное целое от 1 до 10
+random.choice(["a", "b"])      # случайный элемент из списка
+random.shuffle(list)           # перемешивает список
+10. Работа с файлами
+python
+# Чтение
+with open("file.txt", "r", encoding="utf-8") as f:
+    content = f.read()          # всё содержимое
+    lines = f.readlines()       # список строк
+
+# Запись (перезапись)
+with open("file.txt", "w", encoding="utf-8") as f:
+    f.write("текст\n")
+
+# Добавление (в конец)
+with open("file.txt", "a", encoding="utf-8") as f:
+    f.write("новая строка\n")
+Запомни: with закрывает файл автоматически.
+
+11. Обработка ошибок (try-except)
+python
+try:
+    number = int(input("Введи число: "))
+    result = 10 / number
+    print(result)
+except ValueError:
+    print("Ошибка! Введите число")
+except ZeroDivisionError:
+    print("Ошибка! На ноль делить нельзя")
+Запомни: конкретные ошибки — лучше, чем общий except.
+
+12. Главные правила, которые спасают
+Правило	Почему важно
+f-строки	f"текст {переменная}" — удобно и читаемо
+with open()	автоматически закрывает файлы
+try-except	программа не падает при ошибках
+return против print	return даёт значение для дальнейшей работы
+Отступы	4 пробела — стандарт Python
+
+
+
+
+
+
+
