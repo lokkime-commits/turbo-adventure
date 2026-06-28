@@ -611,3 +611,41 @@ try:
     print(f"You number {number}")
 except ValueError:
     print("Ошибка! Нужно ввести число")
+
+# Напиши программу, которая:
+# 1. Спрашивает у пользователя два числа
+# 2. Делит первое на второе
+# 3. Ловит ошибку ZeroDivisionError (деление на ноль) и выводит "Ошибка! На ноль делить нельзя"
+# 4. Ловит ошибку ValueError, если введено не число
+
+
+try:
+    number = int(input("Первое число: "))
+    number1 = int(input("Второе число: "))
+    result = number // number1
+    print(f"Твоё число {number} / {number1} = {result}")
+except ZeroDivisionError:
+    print("Ошибка! На ноль делить нельзя")
+except ValueError:
+    print("Ошибка! Введите число")
+
+# Напиши программу, которая:
+# 1. Спрашивает у пользователя имя файла
+# 2. Пытается открыть этот файл для чтения
+# 3. Ловит ошибку FileNotFoundError и выводит "Файл не найден"
+# 4. Если файл найден — выводит его содержимое
+# Подсказка: имя файла получай через input() и подставляй в open().
+
+
+try:
+    file_name = input("Назои имя файла: ")
+    with open(file_name, "r", encoding="utf-8") as file:
+        content = file.read()
+        print(content)
+except FileNotFoundError:
+    print("Файл не найден")
+
+
+
+
+
