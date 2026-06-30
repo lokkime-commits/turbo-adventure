@@ -158,6 +158,52 @@ Playlist.add_song(song2)
 Playlist.add_song(song3)
 
 Playlist.show_song()
+---------------------------------------------------------------------------------------------------------------
+
+# Создай класс "Cart" (Корзина покупок):
+# 1. В __init__ создай атрибут items = [] (пустой список товаров)
+# 2. Создай метод add_item(item), который добавляет товар в корзину
+# 3. Создай метод total_price(), который возвращает общую стоимость всех товаров
+# 4. Создай метод show_items(), который выводит все товары в корзине
+# 5. Создай корзину, добавь 3 товара и покажи их общую стоимость.
+# Подсказка: товар — это класс Item с атрибутами name и price.
+# В __str__ выводится "Товар: {name}, Цена: {price}".
+
+class Item:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+    def __str__(self):
+        return f"Товар: {self.name}, Цена: {self.price}"
+class Cart:
+    def __init__(self):
+        self.items = []  # Создаём пустой список для товаров
+    def add_item(self, item):
+        self.items.append(item)  # Добавляем товар в Корзина
+    def total_price(self):
+        total = 0
+        for item in self.items: # перебираем все товары в корзине
+            total = total + item.price # добавляем цену товара к общей сумме
+        return total #  возвращаем общую стоимость
+    def show_items(self):
+        for items in self.items:
+            print(items)
+# Создаём товары
+item1 = Item("Катюша", 467)
+item2 = Item("Клиторуша", 547568)
+item3 = Item("Мандуша", 55758)
+
+# Создаём корзину
+cart = Cart()
+# Добавляем товары в корзину
+cart.add_item(item1)
+cart.add_item(item2)
+cart.add_item(item3)
+
+cart.show_items() # Показываем товары
+
+# Выводим общую стоимость
+print(f"Общая стоимость: {cart.total_price()}")
 
 
 
