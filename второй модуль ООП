@@ -118,8 +118,46 @@ library.add_book(book2)
 
 # Показываем все книги (БЕЗ лишнего print)
 library.show_books()
+-----------------------------------------------------------------------------------------------------
+# Создай класс "Playlist" (Плейлист):
+# 1. В __init__ принимает name (название плейлиста)
+# 2. Сохраняет name в атрибут
+# 3. Создай атрибут songs = [] (пустой список песен)
+# 4. Создай метод add_song(song), который добавляет песню в список songs
+# 5. Создай метод show_songs(), который выводит все песни в плейлисте
+# 6. Создай плейлист, добавь 3 песни и покажи их.
+# Подсказка: песня — это объект класса Song с атрибутами: title (название) и artist (исполнитель).
+
+class Song:
+    def __init__(self, title, artist):
+        self.title = title
+        self.artist = artist
+    def __str__(self):
+        return f"Название: {self.title}, исполнитель: {self.artist}"
+class Playlist:
+    def __init__(self, name):
+        self.name = name
+        self.songs = []          
+
+    def add_song(self, song):
+        self.songs.append(song)  
+    def show_song(self):
+        for song in self.songs:  
+            print(song)          
 
 
+Playlist = Playlist("Мой плейлист")
+
+
+song1 = Song("Катюша", "Пиздуша")
+song2 = Song("Клиторуша", "Вагинуша")
+song3 = Song("Мандуша", "Анусуша")
+
+Playlist.add_song(song1)
+Playlist.add_song(song2)
+Playlist.add_song(song3)
+
+Playlist.show_song()
 
 
 
