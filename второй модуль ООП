@@ -76,4 +76,57 @@ User1.login()
 User2.logout()
 -______________________________________________________________________________________________
 
+# Создай класс "Library" (Библиотека):
+# 1. В __init__ принимает name (название библиотеки)
+# 2. Сохраняет name в атрибут
+# 3. Создай атрибут books = [] (пустой список для книг)
+# 4. Создай метод add_book(book), который добавляет книгу в список books
+# 5. Создай метод show_books(), который выводит все книги в библиотеке
+# 6. Создай объект библиотеки, добавь несколько книг и покажи их.
+# Подсказка: книга — это объект класса Book из предыдущего задания.
+
+class Book:
+    def __init__(self, title, author, pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
+
+    def __str__(self):
+        return f"Название: {self.title}, Автор: {self.author}, Страниц: {self.pages}"
+
+class Library:
+    def __init__(self, name):
+        self.name = name
+        self.books = []          # Создаём пустой список для книг
+
+    def add_book(self, book):
+        self.books.append(book)  # Добавляем книгу в список
+
+    def show_books(self):
+        for book in self.books:  # Перебираем все книги в списке
+            print(book)          # Печатаем каждую книгу (вызовется __str__)
+
+# Создаём библиотеку
+library = Library("Моя библиотека")
+
+# Добавляем книги (создаём книги через класс Book)
+book1 = book("Война и мир", "Толстой", 1300)
+book2 = book("Преступление и наказание", "Достоевский", 672)
+
+library.add_book(book1)
+library.add_book(book2)
+
+# Показываем все книги (БЕЗ лишнего print)
+library.show_books()
+
+
+
+
+
+
+
+
+
+
+
 
