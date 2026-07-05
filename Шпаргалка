@@ -1,0 +1,140 @@
+1. Переменные и типы
+python
+name = "Илья"          # str — строка
+age = 37               # int — целое число
+height = 1.78          # float — дробное число
+is_student = True      # bool — True/False
+2. Ввод и вывод
+python
+name = input("Как тебя зовут? ")   # запрос
+print(f"Привет, {name}!")           # f-строка
+3. Условия
+python
+if age >= 18:
+    print("Взрослый")
+elif age >= 14:
+    print("Подросток")
+else:
+    print("Ребёнок")
+4. Циклы
+python
+# for — когда знаем количество
+for i in range(5):          # 0, 1, 2, 3, 4
+    print(i)
+
+for item in list:           # перебор элементов
+    print(item)
+
+# while — пока условие верно
+while password != "123":
+    password = input("Введите пароль: ")
+5. Списки
+python
+fruits = ["яблоко", "банан"]      # создание
+fruits.append("груша")             # добавить в конец
+fruits.insert(1, "апельсин")       # вставить по индексу
+fruits.remove("банан")             # удалить по значению
+fruits.pop()                       # удалить последний
+fruits.pop(1)                      # удалить по индексу
+fruits[0]                          # первый элемент
+fruits[-1]                         # последний элемент
+fruits[1:3]                        # срез
+len(fruits)                        # длина списка
+6. Словари
+python
+person = {"name": "Илья", "age": 37}   # создание
+person["city"] = "Москва"               # добавить
+person["age"] = 38                      # изменить
+print(person["name"])                   # получить значение
+del person["city"]                      # удалить ключ
+
+for key, value in person.items():       # перебор
+    print(f"{key}: {value}")
+
+if "name" in person:                    # проверка наличия ключа
+    print("Есть!")
+7. Функции
+python
+def add(a, b):
+    return a + b
+
+result = add(3, 5)        # result = 8
+Запомни:
+
+return — возвращает значение
+
+print() — только выводит, ничего не возвращает
+
+Без return функция возвращает None
+
+8. Строки (методы)
+python
+word = "hello"
+word[0]          # "h" — первый символ
+word[-1]         # "o" — последний символ
+len(word)        # 5 — длина строки
+word.upper()     # "HELLO"
+word.lower()     # "hello"
+word.capitalize() # "Hello"
+word.strip()     # убирает пробелы
+9. Работа с файлами
+python
+# Чтение
+with open("file.txt", "r", encoding="utf-8") as f:
+    content = f.read()          # всё содержимое
+    lines = f.readlines()       # список строк
+
+# Запись (перезапись)
+with open("file.txt", "w", encoding="utf-8") as f:
+    f.write("текст\n")
+
+# Добавление (в конец)
+with open("file.txt", "a", encoding="utf-8") as f:
+    f.write("новая строка\n")
+10. Обработка ошибок
+python
+try:
+    number = int(input("Введи число: "))
+except ValueError:
+    print("Ошибка! Введите число")
+except ZeroDivisionError:
+    print("На ноль делить нельзя")
+11. Модули
+python
+import random
+
+random.randint(1, 10)          # случайное целое
+random.choice(["a", "b"])      # случайный элемент из списка
+random.shuffle(list)           # перемешивает список
+12. Полезные встроенные функции
+python
+len(list)          # длина списка/строки
+sum(list)          # сумма чисел в списке
+max(list)          # максимальное число
+min(list)          # минимальное число
+type(var)          # тип переменной
+str(num)           # преобразовать в строку
+int(str)           # преобразовать в целое число
+float(str)         # преобразовать в дробное число
+13. Проверка in
+python
+# В списке
+if "банан" in fruits:
+    print("Есть!")
+
+# В словаре (проверка ключа)
+if "name" in person:
+    print("Есть ключ name!")
+
+# В строке
+if "python" in "python is cool":
+    print("Да!")
+14. Увеличение счётчика
+python
+# В цикле для накопления
+total = 0
+for x in numbers:
+    total = total + x   # или total += x
+
+# В словаре для подсчёта букв
+result[letter] = result[letter] + 1   # или result[letter] += 1
