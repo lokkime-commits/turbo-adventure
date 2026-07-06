@@ -1,1 +1,182 @@
+# Напиши функцию get_words_longer_than(words, n), которая:
+# 1. Принимает список слов и число n
+# 2. Возвращает новый список, содержащий только слова длиннее n
+# 3. Используй цикл for и len()
+
+def get_words_longer_than(words, n):
+    result = []
+    for word in words:
+        if len(word) > n:
+            result.append(word)
+    return result
+
+print(get_words_longer_than(["кот", "собака", "слон", "бегемот"], 4))
+print(get_words_longer_than(["дом", "машина", "стол"], 3))
+
+# Напиши функцию get_average_grade(grades), которая:
+# 1. Принимает список оценок (числа)
+# 2. Возвращает средний балл (сумма всех оценок / их количество)
+# 3. Если список пустой — возвращает 0
+# 4. Используй sum() и len()
+
+def get_average_grade(grades):
+    result = []
+    if len(grades) == 0:
+        return 0
+    return sum(grades) / len(grades) # sum(grades) — встроенная функция, которая считает сумму всех чисел в списке.
+print(get_average_grade([1, 3, 7, 8, 9]))
+print(get_average_grade([4, 6, 7, 99]))
+print(get_average_grade([]))
+
+# Напиши функцию get_max(numbers), которая:
+# 1. Принимает список чисел
+# 2. Возвращает самое большое число в списке
+# 3. Используй цикл for и переменную max_num
+
+def get_max(numbers):
+    max_num = numbers[0]
+    for num in numbers:
+        if num > max_num:
+            max_num = num
+    return max_num
+print(get_max([1, 4, 7, 4, 88, 55]))
+print(get_max([1, 4, 7, 4, 65, 55]))
+
+
+# Напиши функцию get_min(numbers), которая:
+# 1. Принимает список чисел
+# 2. Возвращает самое маленькое число в списке
+# 3. Используй цикл for и переменную min_num
+
+# 1. Берём ПЕРВОЕ число как "временно самое большое"
+ # 2. Проходим по КАЖДОМУ числу в списке
+# 3. Если текущее число БОЛЬШЕ, чем "временно самое большое"
+# 4. То обновляем "временно самое большое"
+# 5. Возвращаем то, что осталось
+def get_min(numbers):
+    min_num = numbers[0]
+    for num in numbers:
+        if num < min_num:
+            min_num = num
+    return min_num
+print(get_min([44, 55, 66, 55, 34, 21]))
+print(get_min([99, 55, 43, 22]))
+
+
+# Напиши функцию count_letters(word), которая:
+# 1. Принимает строку (слово)
+# 2. Возвращает словарь, где ключи — буквы, а значения — количество раз, сколько буква встречается
+# 3. Используй цикл for и словарь
+
+def count_letters(word):
+    result = {}
+    for w in word:
+        if w in result:
+            result[w] = result[w] + 1
+        else:                         
+            result[w] = 1
+print(count_letters(["polokiu"]))
+print(count_letters(["wrottenogi"]))
+
+# Напиши функцию get_words_starting_with(words, letter), которая:
+# 1. Принимает список слов и букву
+# 2. Возвращает список слов, которые начинаются с этой буквы
+# 3. Используй цикл for и проверку word[0] == letter
+
+def get_words_starting_with(words, letter):
+    result = []
+    for word in words:
+        if word[0] == letter:
+            result.append(word) # добавляем слово
+    return result               # возвращаем после цикла
+print(get_words_starting_with(["truiophd", "fdgdfj", "acaf"], "t"))
+print(get_words_starting_with(["dfhytuyi", "arwet", "drtgdfg"], "d"))
+#🎯 Что ты закрепил
+#Концепция	Как применил
+#Цикл for	Перебор слов в списке
+#Доступ к символу строки	word[0] — первый символ
+#Условный оператор if	Проверка, начинается ли слово с нужной буквы
+#Метод append()	Добавление слов в результирующий список
+#return	Возврат результата после цикла
+
+# Напиши функцию get_words_ending_with(words, letter), которая:
+# 1. Принимает список слов и букву
+# 2. Возвращает список слов, которые заканчиваются на эту букву
+# 3. Используй цикл for и проверку word[-1] == letter
+# Напоминание: word[-1] — это последний символ строки
+
+def get_words_ending_with(words, letter):
+    result = []
+    for word in words:
+        if word[-1] == letter:
+            result.append(word)
+    return result
+print(get_words_ending_with(["truiophd", "fdgdfj", "acaf"], "f"))
+print(get_words_ending_with(["truiophd", "fdgdfj", "acaf"], "j"))
+
+# Напиши функцию get_words_by_length(words, length), которая:
+# 1. Принимает список слов и число length
+# 2. Возвращает список слов, длина которых равна length
+# 3. Используй цикл for и len()
+
+def get_words_by_length(words, length):
+    result = []
+    for word in words:
+        if len(word) == length:
+            result.append(word)
+    return result
+print(get_words_by_length(["etregd", "sdfrgfh", "aswfsghfjg"], 6))
+print(get_words_by_length(["etregd", "sdfrgfh", "aswfsghfjg"], 10))
+
+# Напиши функцию get_longest_word(words), которая:
+# 1. Принимает список слов
+# 2. Возвращает самое длинное слово в списке
+# 3. Используй цикл for и переменную longest
+# 4. Если список пустой — возвращает None
+
+def get_longest_word(words):
+    if len(words) == 0:
+        return None
+    longest = words[0]
+    for word in words:
+        if len(word) > len(longest):
+            longest = word
+    return longest
+print(get_longest_word(["fghh", "fdteryh", "sgridfghdgkj"]))
+print(get_longest_word(["fghdyh", "fdtetyrtyryh", "sgrirtyrtydfghdgkj"]))
+print(get_longest_word([]))
+
+
+# Напиши функцию get_words_by_letter(words, letter), которая:
+# 1. Принимает список слов и букву
+# 2. Возвращает список слов, в которых есть эта буква
+# 3. Используй цикл for и проверку letter in word
+
+def get_words_by_letter(words, letter):
+    result = []
+    for word in words:
+        if letter in word:
+            result.append(word)
+    return result
+print(get_words_by_letter(["dadgrtg", "werwffhyi", "fyikhjkl"], "f"))
+print(get_words_by_letter(["dadgrtg", "werwffhyi", "fyikhjkl"], "a"))
+
+# Напиши функцию get_common_elements(list1, list2), которая:
+# 1. Принимает два списка
+# 2. Возвращает список элементов, которые есть в обоих списках
+# 3. Используй цикл for и проверку in
+
+def get_common_elements(list1, list2):
+    result = []
+    for item in list1: # Перебираем каждый элемент из первого списка
+        if item in list2: # Проверяем: есть ли этот элемент во втором списке?
+            result.append(item)
+    return result
+print(get_common_elements([2, 4, 9, 7], [1, 9, 7, 8]))
+print(get_common_elements([3, 6, 7], [6, 9, 3]))
+
+# Напиши функцию count_vowels(text), которая:
+# 1. Принимает строку (слово или предложение)
+# 2. Возвращает количество гласных букв (а, е, ё, и, о, у, ы, э, ю, я)
+# 3. Используй цикл for и переменную-счётчик
 
