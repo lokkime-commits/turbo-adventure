@@ -924,3 +924,729 @@ library.add_book("iiiiii", "er")
 library.remove_book("hgfjhkjl")
 
 print(library.show_books())
+
+Задание 28: Класс Playlist (с длительностью)
+python
+# Создай класс "Playlist" (Плейлист):
+# 1. В __init__ принимает name (название плейлиста)
+# 2. Сохраняет name в атрибут
+# 3. Создай атрибут songs = [] (список песен)
+# 4. Создай метод add_song(title, artist, duration), который добавляет песню в виде словаря:
+#    {"title": title, "artist": artist, "duration": duration}
+# 5. Создай метод remove_song(title), который удаляет песню по названию
+# 6. Создай метод get_total_duration(), который возвращает общую длительность плейлиста
+# 7. Создай метод show_songs(), который возвращает список песен
+
+class Playlist:
+    def __init__(self, name):
+        self.name = name
+        self.songs = []
+
+    def add_song(self, title, artist, duration):
+        self.songs.append({"title": title, "artist": artist, "duration": duration})
+
+    def remove_song(self, title):
+        for song in self.songs:
+            if song["title"] == title:
+                self.songs.remove(song)
+                break
+
+    def get_total_duration(self):
+        if len(self.songs) == 0:
+            return 0
+        total = 0
+        for song in self.songs:
+            total = total + song["duration"]
+        return total
+
+    def show_songs(self):
+        return self.songs
+
+
+playlist = Playlist("Musk")
+
+playlist.add_song("tttt", "eeee", 78)
+playlist.add_song("bbbb", "nnnnn", 44)
+playlist.add_song("iiii", "ooooo", 66)
+
+playlist.remove_song("iiii")
+
+print(playlist.get_total_duration())
+Задание 29: Класс ContactBook
+python
+# Создай класс "ContactBook" (Книга контактов):
+# 1. В __init__ принимает name (название книги)
+# 2. Сохраняет name в атрибут
+# 3. Создай атрибут contacts = [] (список контактов)
+# 4. Создай метод add_contact(name, phone), который добавляет контакт в виде словаря:
+#    {"name": name, "phone": phone}
+# 5. Создай метод remove_contact(name), который удаляет контакт по имени
+# 6. Создай метод find_contact(name), который возвращает контакт по имени
+# 7. Создай метод show_contacts(), который возвращает список контактов
+
+class ContactBook:
+    def __init__(self, name):
+        self.name = name
+        self.contacts = []
+
+    def add_contact(self, name, phone):
+        self.contacts.append({"name": name, "phone": phone})
+
+    def remove_contact(self, name):
+        for contact in self.contacts:
+            if contact["name"] == name:
+                self.contacts.remove(contact)
+                break
+
+    def find_contact(self, name):
+        for contact in self.contacts:
+            if contact["name"] == name:
+                return contact
+        return None
+
+    def show_contacts(self):
+        return self.contacts
+
+
+contactBook = ContactBook("book")
+
+contactBook.add_contact("uuu", "iiioo")
+contactBook.add_contact("kkkk", "sssss")
+contactBook.add_contact("qqqq", "mmmm")
+
+print(contactBook.find_contact("kkkk"))
+
+contactBook.remove_contact("uuu")
+
+print(contactBook.show_contacts())
+Задание 30: Класс ExpenseTracker
+python
+# Создай класс "ExpenseTracker" (Трекер расходов):
+# 1. В __init__ принимает name (название трекера)
+# 2. Сохраняет name в атрибут
+# 3. Создай атрибут expenses = [] (список расходов)
+# 4. Создай метод add_expense(category, amount, description), который добавляет расход в виде словаря:
+#    {"category": category, "amount": amount, "description": description}
+# 5. Создай метод get_total(), который возвращает общую сумму всех расходов
+# 6. Создай метод get_by_category(category), который возвращает все расходы по категории
+# 7. Создай метод show_expenses(), который возвращает список всех расходов
+
+class ExpenseTracker:
+    def __init__(self, name):
+        self.name = name
+        self.expenses = []
+
+    def add_expense(self, category, amount, description):
+        self.expenses.append({"category": category, "amount": amount, "description": description})
+
+    def get_total(self):
+        if len(self.expenses) == 0:
+            return 0
+        total = 0
+        for expense in self.expenses:
+            total = total + expense["amount"]
+        return total
+
+    def get_by_category(self, category):
+        result = []
+        for expense in self.expenses:
+            if expense["category"] == category:
+                result.append(expense)
+        return result
+
+    def show_expenses(self):
+        return self.expenses
+
+
+expenseTracker = ExpenseTracker("Vuugg")
+
+expenseTracker.add_expense("qqq", 434, "aaaa")
+expenseTracker.add_expense("zzz", 556, "ccc")
+expenseTracker.add_expense("hhh", 789, "llll")
+
+print(expenseTracker.get_total())
+print(expenseTracker.get_by_category("zzz"))
+УРОК 21: НАСЛЕДОВАНИЕ
+Задание 31: Vehicle → Car
+python
+# Создай родительский класс "Vehicle" (Транспортное средство):
+# 1. В __init__ принимает brand, model, year
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Марка: {brand}, Модель: {model}, Год: {year}"
+# 4. Создай метод start(), который выводит "Двигатель запущен!"
+
+# Создай дочерний класс "Car" (Автомобиль), который наследует от Vehicle:
+# 1. В __init__ принимает brand, model, year, doors (количество дверей)
+# 2. Сохраняет doors в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял количество дверей:
+#    "Марка: {brand}, Модель: {model}, Год: {year}, Дверей: {doors}"
+
+class Vehicle:
+    def __init__(self, brand, model, year):
+        self.brand = brand
+        self.model = model
+        self.year = year
+
+    def info(self):
+        return f"Марка: {self.brand}, Модель: {self.model}, Год: {self.year}"
+
+    def start(self):
+        print("Двигатель запущен!")
+
+
+class Car(Vehicle):
+    def __init__(self, brand, model, year, doors):
+        super().__init__(brand, model, year)
+        self.doors = doors
+
+    def info(self):
+        return f"Марка: {self.brand}, Модель: {self.model}, Год: {self.year}, Дверей: {self.doors}"
+
+
+car = Car("fsf", "fsffff", 1976, 4)
+print(car.info())
+Задание 32: Employee → Manager
+python
+# Создай родительский класс "Employee" (Сотрудник):
+# 1. В __init__ принимает name, salary
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Сотрудник: {name}, Зарплата: {salary}"
+# 4. Создай метод work(), который выводит "Работаю..."
+
+# Создай дочерний класс "Manager" (Менеджер), который наследует от Employee:
+# 1. В __init__ принимает name, salary, team_size (размер команды)
+# 2. Сохраняет team_size в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял размер команды:
+#    "Менеджер: {name}, Зарплата: {salary}, Команда: {team_size}"
+# 5. Переопредели метод work(), чтобы он выводил "Управляю командой"
+
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def info(self):
+        return f"Сотрудник: {self.name}, Зарплата: {self.salary}"
+
+    def work(self):
+        print("Работаю...")
+
+
+class Manager(Employee):
+    def __init__(self, name, salary, team_size):
+        super().__init__(name, salary)
+        self.team_size = team_size
+
+    def info(self):
+        return f"Менеджер: {self.name}, Зарплата: {self.salary}, Команда: {self.team_size}"
+
+    def work(self):
+        print("Управляю командой")
+
+
+manager = Manager("dg", 455667, "tyyi")
+
+print(manager.info())
+manager.work()
+Задание 33: Device → Laptop
+python
+# Создай родительский класс "Device" (Устройство):
+# 1. В __init__ принимает brand, model
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Устройство: {brand} {model}"
+# 4. Создай метод turn_on(), который выводит "Устройство включено"
+
+# Создай дочерний класс "Laptop" (Ноутбук), который наследует от Device:
+# 1. В __init__ принимает brand, model, battery (заряд батареи в %)
+# 2. Сохраняет battery в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял заряд батареи:
+#    "Ноутбук: {brand} {model}, Заряд: {battery}%"
+
+class Device:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def info(self):
+        return f"Устройство: {self.brand} {self.model}"
+
+    def turn_on(self):
+        print("Устройство включено")
+
+
+class Laptop(Device):
+    def __init__(self, brand, model, battery):
+        super().__init__(brand, model)
+        self.battery = battery
+
+    def info(self):
+        return f"Ноутбук: {self.brand} {self.model}, Заряд: {self.battery}%"
+
+
+laptop = Laptop("ggh", "jjkk", 44)
+print(laptop.info())
+Задание 34: Shape → Rectangle
+python
+# Создай родительский класс "Shape" (Фигура):
+# 1. В __init__ принимает name (название фигуры)
+# 2. Сохраняет name в атрибут
+# 3. Создай метод area(), который возвращает 0 (площадь)
+# 4. Создай метод info(), который возвращает:
+#    "Фигура: {name}"
+
+# Создай дочерний класс "Rectangle" (Прямоугольник), который наследует от Shape:
+# 1. В __init__ принимает name, width, height
+# 2. Сохраняет width и height в атрибуты
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод area(), чтобы он возвращал площадь (width * height)
+# 5. Переопредели метод info(), чтобы он возвращал:
+#    "Прямоугольник: {name}, Ширина: {width}, Высота: {height}, Площадь: {area}"
+
+class Shape:
+    def __init__(self, name):
+        self.name = name
+
+    def area(self):
+        return 0
+
+    def info(self):
+        return f"Фигура: {self.name}"
+
+
+class Rectangle(Shape):
+    def __init__(self, name, width, height):
+        super().__init__(name)
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def info(self):
+        return f"Прямоугольник: {self.name}, Ширина: {self.width}, Высота: {self.height}, Площадь: {self.area()}"
+
+
+rectangle = Rectangle("gg", 44, 77)
+print(rectangle.info())
+Задание 35: Person → Student
+python
+# Создай родительский класс "Person" (Человек):
+# 1. В __init__ принимает name, age
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод introduce(), который возвращает:
+#    "Меня зовут {name}, мне {age} лет"
+# 4. Создай метод is_adult(), который возвращает True, если возраст >= 18
+
+# Создай дочерний класс "Student" (Студент), который наследует от Person:
+# 1. В __init__ принимает name, age, student_id
+# 2. Сохраняет student_id в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод introduce(), чтобы он добавлял student_id:
+#    "Меня зовут {name}, мне {age} лет, ID: {student_id}"
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def introduce(self):
+        return f"Меня зовут {self.name}, мне {self.age} лет"
+
+    def is_adult(self):
+        return self.age >= 18
+
+
+class Student(Person):
+    def __init__(self, name, age, student_id):
+        super().__init__(name, age)
+        self.student_id = student_id
+
+    def introduce(self):
+        return f"Меня зовут {self.name}, мне {self.age} лет, ID: {self.student_id}"
+
+
+student = Student("ddd", 16, 56778)
+print(student.introduce())
+Задание 36: Animal → Dog
+python
+# Создай родительский класс "Animal" (Животное):
+# 1. В __init__ принимает name, species (вид)
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод sound(), который возвращает "Звук животного"
+# 4. Создай метод info(), который возвращает:
+#    "{name} — {species}"
+
+# Создай дочерний класс "Dog" (Собака), который наследует от Animal:
+# 1. В __init__ принимает name, species, breed (порода)
+# 2. Сохраняет breed в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод sound(), чтобы он возвращал "Гав-гав"
+# 5. Переопредели метод info(), чтобы он добавлял породу:
+#    "{name} — {species}, порода: {breed}"
+
+class Animal:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+
+    def sound(self):
+        return "Звук животного"
+
+    def info(self):
+        return f"{self.name} — {self.species}"
+
+
+class Dog(Animal):
+    def __init__(self, name, species, breed):
+        super().__init__(name, species)
+        self.breed = breed
+
+    def sound(self):
+        return "Гав-гав"
+
+    def info(self):
+        return f"{self.name} — {self.species}, порода: {self.breed}"
+
+
+dog = Dog("dgd", "jj", "ty")
+print(dog.sound())
+print(dog.info())
+Задание 37: Vehicle → Bicycle
+python
+# Создай родительский класс "Vehicle" (Транспортное средство):
+# 1. В __init__ принимает brand, model, year
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Марка: {brand}, Модель: {model}, Год: {year}"
+# 4. Создай метод move(), который выводит "Транспортное средство движется"
+
+# Создай дочерний класс "Bicycle" (Велосипед), который наследует от Vehicle:
+# 1. В __init__ принимает brand, model, year, gears (количество передач)
+# 2. Сохраняет gears в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял количество передач:
+#    "Велосипед: {brand} {model}, Год: {year}, Передач: {gears}"
+# 5. Переопредели метод move(), чтобы он выводил "Велосипед едет"
+
+class Vehicle:
+    def __init__(self, brand, model, year):
+        self.brand = brand
+        self.model = model
+        self.year = year
+
+    def info(self):
+        return f"Марка: {self.brand}, Модель: {self.model}, Год: {self.year}"
+
+    def move(self):
+        print("Транспортное средство движется")
+
+
+class Bicycle(Vehicle):
+    def __init__(self, brand, model, year, gears):
+        super().__init__(brand, model, year)
+        self.gears = gears
+
+    def info(self):
+        return f"Велосипед: {self.brand} {self.model}, Год: {self.year}, Передач: {self.gears}"
+
+    def move(self):
+        print("Велосипед едет")
+
+
+bicycle = Bicycle("zz", "aaw34", 1987, 8)
+print(bicycle.info())
+bicycle.move()
+Задание 38: Appliance → WashingMachine
+python
+# Создай родительский класс "Appliance" (Бытовой прибор):
+# 1. В __init__ принимает brand, power (мощность в Вт)
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Прибор: {brand}, Мощность: {power} Вт"
+# 4. Создай метод turn_on(), который выводит "Прибор включён"
+
+# Создай дочерний класс "WashingMachine" (Стиральная машина), который наследует от Appliance:
+# 1. В __init__ принимает brand, power, capacity (загрузка в кг)
+# 2. Сохраняет capacity в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял загрузку:
+#    "Стиральная машина: {brand}, Мощность: {power} Вт, Загрузка: {capacity} кг"
+# 5. Переопредели метод turn_on(), чтобы он выводил "Стиральная машина запущена"
+
+class Appliance:
+    def __init__(self, brand, power):
+        self.brand = brand
+        self.power = power
+
+    def info(self):
+        return f"Прибор: {self.brand}, Мощность: {self.power} Вт"
+
+    def turn_on(self):
+        print("Прибор включён")
+
+
+class WashingMachine(Appliance):
+    def __init__(self, brand, power, capacity):
+        super().__init__(brand, power)
+        self.capacity = capacity
+
+    def info(self):
+        return f"Стиральная машина: {self.brand}, Мощность: {self.power} Вт, Загрузка: {self.capacity} кг"
+
+    def turn_on(self):
+        print("Стиральная машина запущена")
+
+
+washingMachine = WashingMachine("ttt", 666, 66)
+print(washingMachine.info())
+washingMachine.turn_on()
+Задание 39: LibraryItem → Book
+python
+# Создай родительский класс "LibraryItem" (Библиотечный предмет):
+# 1. В __init__ принимает title, year
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Название: {title}, Год: {year}"
+# 4. Создай метод get_type(), который возвращает "Предмет"
+
+# Создай дочерний класс "Book" (Книга), который наследует от LibraryItem:
+# 1. В __init__ принимает title, year, author, pages
+# 2. Сохраняет author и pages в атрибуты
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял автора и страницы:
+#    "Книга: {title}, Автор: {author}, Год: {year}, Страниц: {pages}"
+# 5. Переопредели метод get_type(), чтобы он возвращал "Книга"
+
+class LibraryItem:
+    def __init__(self, title, year):
+        self.title = title
+        self.year = year
+
+    def info(self):
+        return f"Название: {self.title}, Год: {self.year}"
+
+    def get_type(self):
+        return "Предмет"
+
+
+class Book(LibraryItem):
+    def __init__(self, title, year, author, pages):
+        super().__init__(title, year)
+        self.author = author
+        self.pages = pages
+
+    def info(self):
+        return f"Книга: {self.title}, Автор: {self.author}, Год: {self.year}, Страниц: {self.pages}"
+
+    def get_type(self):
+        return "Книга"
+
+
+book = Book("hhhh", 1999, "llll", 409)
+
+print(book.info())
+print(book.get_type())
+Задание 40: Device → Smartphone
+python
+# Создай родительский класс "Device" (Устройство):
+# 1. В __init__ принимает brand, model
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Устройство: {brand} {model}"
+# 4. Создай метод turn_on(), который выводит "Устройство включено"
+
+# Создай дочерний класс "Smartphone" (Смартфон), который наследует от Device:
+# 1. В __init__ принимает brand, model, camera (мегапиксели)
+# 2. Сохраняет camera в атрибут
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял камеру:
+#    "Смартфон: {brand} {model}, Камера: {camera} МП"
+# 5. Переопредели метод turn_on(), чтобы он выводил "Смартфон включён"
+
+class Device:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def info(self):
+        return f"Устройство: {self.brand} {self.model}"
+
+    def turn_on(self):
+        print("Устройство включено")
+
+
+class Smartphone(Device):
+    def __init__(self, brand, model, camera):
+        super().__init__(brand, model)
+        self.camera = camera
+
+    def info(self):
+        return f"Смартфон: {self.brand} {self.model}, Камера: {self.camera} МП"
+
+    def turn_on(self):
+        print("Смартфон включён")
+
+
+smartphone = Smartphone("wht", "jop", 68)
+print(smartphone.info())
+smartphone.turn_on()
+Задание 41: Media → Movie
+python
+# Создай родительский класс "Media" (Медиа):
+# 1. В __init__ принимает title, duration (в минутах)
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод info(), который возвращает:
+#    "Название: {title}, Длительность: {duration} мин"
+# 4. Создай метод play(), который выводит "Воспроизведение..."
+
+# Создай дочерний класс "Movie" (Фильм), который наследует от Media:
+# 1. В __init__ принимает title, duration, director, rating
+# 2. Сохраняет director и rating в атрибуты
+# 3. Вызывает __init__ родителя через super()
+# 4. Переопредели метод info(), чтобы он добавлял режиссёра и рейтинг:
+#    "Фильм: {title}, Режиссёр: {director}, Рейтинг: {rating}, Длительность: {duration} мин"
+# 5. Переопредели метод play(), чтобы он выводил "Фильм {title} воспроизводится..."
+
+class Media:
+    def __init__(self, title, duration):
+        self.title = title
+        self.duration = duration
+
+    def info(self):
+        return f"Название: {self.title}, Длительность: {self.duration} мин"
+
+    def play(self):
+        print("Воспроизведение...")
+
+
+class Movie(Media):
+    def __init__(self, title, duration, director, rating):
+        super().__init__(title, duration)
+        self.director = director
+        self.rating = rating
+
+    def info(self):
+        return f"Фильм: {self.title}, Режиссёр: {self.director}, Рейтинг: {self.rating}, Длительность: {self.duration} мин"
+
+    def play(self):
+        print(f"Фильм {self.title} воспроизводится...")
+
+
+movie = Movie("ooo", 98, "mmmm", 4.9)
+print(movie.info())
+movie.play()
+УРОК 22: ПОЛИМОРФИЗМ
+Задание 42: Фигуры
+python
+# Создай родительский класс "Shape" (Фигура):
+# 1. В __init__ принимает name
+# 2. Сохраняет name в атрибут
+# 3. Создай метод area(), который возвращает 0 (заглушка)
+# 4. Создай метод info(), который возвращает:
+#    "Фигура: {name}"
+
+# Создай три дочерних класса:
+# - Rectangle (Прямоугольник): width, height → area = width * height
+# - Circle (Круг): radius → area = 3.14 * radius ** 2
+# - Triangle (Треугольник): base, height → area = 0.5 * base * height
+
+class Shape:
+    def __init__(self, name):
+        self.name = name
+
+    def area(self):
+        return 0
+
+    def info(self):
+        return f"Фигура: {self.name}"
+
+
+class Rectangle(Shape):
+    def __init__(self, name, width, height):
+        super().__init__(name)
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+
+class Circle(Shape):
+    def __init__(self, name, radius):
+        super().__init__(name)
+        self.radius = radius
+
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+
+class Triangle(Shape):
+    def __init__(self, name, base, height):
+        super().__init__(name)
+        self.base = base
+        self.height = height
+
+    def area(self):
+        return 0.5 * self.base * self.height
+
+
+shapes = [Rectangle("Прямоугольник", 44, 66),
+          Circle("Круг", 78),
+          Triangle("Треугольник", 65, 87)]
+
+for shape in shapes:
+    print(f"{shape.info()}, Площадь: {shape.area()}")
+Задание 43: Сотрудники
+python
+# Создай родительский класс "Employee" (Сотрудник):
+# 1. В __init__ принимает name, salary
+# 2. Сохраняет их в атрибуты
+# 3. Создай метод work(), который возвращает "Работает"
+# 4. Создай метод info(), который возвращает:
+#    "Сотрудник: {name}, Зарплата: {salary}"
+
+# Создай три дочерних класса:
+# - Manager (Менеджер): work() → "Управляет командой"
+# - Developer (Разработчик): work() → "Пишет код"
+# - Designer (Дизайнер): work() → "Рисует макеты"
+
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def work(self):
+        return "Работает"
+
+    def info(self):
+        return f"Сотрудник: {self.name}, Зарплата: {self.salary}"
+
+
+class Manager(Employee):
+    def work(self):
+        return "Управляет командой"
+
+
+class Developer(Employee):
+    def work(self):
+        return "Пишет код"
+
+
+class Designer(Employee):
+    def work(self):
+        return "Рисует макеты"
+
+
+employees = [Manager("Анна", 100000),
+             Developer("Илья", 80000),
+             Designer("Мария", 70000)]
+
+for emp in employees:
+    print(f"{emp.info()}, Работа: {emp.work()}")
+
