@@ -1,0 +1,172 @@
+ВТОРОЙ МОДУЛЬ — ОСНОВЫ ООП (САМОЕ ГЛАВНОЕ)
+1. КЛАССЫ И ОБЪЕКТЫ
+python
+class Person:
+    def __init__(self, name, age):   # конструктор (вызывается при создании)
+        self.name = name             # атрибут (сохраняем в объект)
+        self.age = age
+
+    def info(self):                  # метод (действие объекта)
+        return f"{self.name}, {self.age} лет"
+
+
+p = Person("Илья", 37)    # создаём объект
+print(p.info())           # Илья, 37 лет
+Запомни:
+
+class — чертёж
+
+__init__ — конструктор (создаёт объект)
+
+self — ссылка на текущий объект
+
+self.атрибут — данные объекта
+
+метод(self) — функция объекта
+
+2. НАСЛЕДОВАНИЕ (Inheritance)
+python
+class Animal:                          # родительский класс
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return "Звук"
+
+class Dog(Animal):                     # дочерний класс
+    def speak(self):                   # переопределение метода
+        return "Гав-гав"
+
+    def __init__(self, name, breed):   # добавляем свой атрибут
+        super().__init__(name)         # вызываем родительский __init__
+        self.breed = breed
+
+
+dog = Dog("Шарик", "Овчарка")
+print(dog.speak())   # Гав-гав
+Запомни:
+
+Дочерний класс наследует все методы и атрибуты родителя.
+
+super() — вызывает метод родителя.
+
+Можно переопределять методы родителя.
+
+3. ПОЛИМОРФИЗМ (Polymorphism)
+python
+class Cat(Animal):
+    def speak(self):
+        return "Мяу"
+
+class Cow(Animal):
+    def speak(self):
+        return "Му"
+
+animals = [Dog("Шарик", "Овчарка"), Cat("Мурка"), Cow("Бурёнка")]
+
+for a in animals:
+    print(a.speak())   # Гав-гав, Мяу, Му — один вызов, разный результат
+Запомни:
+
+Один метод (speak()), много реализаций.
+
+Код работает с любым объектом, у которого есть speak().
+
+4. ИНКАПСУЛЯЦИЯ (Encapsulation)
+python
+class BankAccount:
+    def __init__(self, owner, balance):
+        self.owner = owner               # публичный (доступен везде)
+        self.__balance = balance         # приватный (скрыт)
+
+    def get_balance(self):               # геттер
+        return self.__balance
+
+    def deposit(self, amount):           # сеттер
+        if amount > 0:
+            self.__balance += amount
+        else:
+            print("Сумма должна быть > 0")
+
+
+acc = BankAccount("Илья", 1000)
+print(acc.owner)          # Илья
+print(acc.__balance)      # ❌ Ошибка! Нельзя напрямую
+print(acc.get_balance())  # 1000
+acc.deposit(500)
+print(acc.get_balance())  # 1500
+Запомни:
+
+__атрибут — приватный (скрыт от внешнего мира).
+
+Геттер — метод для получения значения.
+
+Сеттер — метод для изменения значения с проверкой.
+
+5. МАГИЧЕСКИЕ МЕТОДЫ (Dunder Methods)
+python
+class Book:
+    def __init__(self, title, pages):
+        self.title = title
+        self.pages = pages
+
+    def __str__(self):                     # print(объект)
+        return f"Книга: {self.title}"
+
+    def __len__(self):                     # len(объект)
+        return self.pages
+
+    def __eq__(self, other):               # объект1 == объект2
+        return self.title == other.title
+
+    def __add__(self, other):              # объект1 + объект2
+        return Book("Сборник", self.pages + other.pages)
+
+    def __lt__(self, other):               # объект1 < объект2
+        return self.pages < other.pages
+
+
+b1 = Book("1984", 300)
+b2 = Book("Скотный двор", 200)
+
+print(b1)              # Книга: 1984
+print(len(b1))         # 300
+print(b1 == b2)        # False
+b3 = b1 + b2
+print(b3.pages)        # 500
+print(b2 < b1)         # True
+Запомни:
+
+__str__ — print().
+
+__len__ — len().
+
+__eq__ — ==.
+
+__add__ — +.
+
+__lt__ — <.
+
+6. ГЛАВНЫЕ ПРАВИЛА
+Что делаешь	Как
+Создаёшь класс	class ClassName:
+Сохраняешь данные	self.атрибут = значение
+Наследуешь	class Child(Parent):
+Вызываешь родителя	super().__init__(...)
+Скрываешь данные	self.__атрибут
+Меняешь поведение оператора	__add__, __eq__ и т.д.
+🎯 ИТОГ
+Второй модуль — это ООП.
+Ты научился создавать объекты, наследовать, переопределять, скрывать данные и перегружать операторы.
+
+Теперь ты можешь:
+
+✅ Писать чистый, структурированный код
+
+✅ Создавать свои типы данных
+
+✅ Использовать наследование и полиморфизм
+
+✅ Защищать данные от случайных изменений
+
+✅ Перегружать операторы (+, ==, <)
