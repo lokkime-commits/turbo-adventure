@@ -1,0 +1,167 @@
+# Урок 40: Расширенный проект: Создание многопоточного веб-скрейпера--------------------------------------------------------
+# 🧠 Структура проекта
+# Проект состоит из 4 функций:
+
+# Функция	Что делает
+
+# fetch_post_data(post_id, results, lock)	Скачивает один пост и добавляет в общий список
+# process_data(raw_data)	Достаёт title и body из JSON
+# save_data_to_json(data, filename)	Сохраняет список в JSON-файл
+# main()	Запускает всё
+#📋 Задание 160 (первый шаг — process_data)------------------------------------------------------------------------------
+# Напиши функцию process_data(raw_data), которая:
+# 1. Принимает словарь (сырые данные из API)
+# 2. Возвращает новый словарь только с ключами "title" и "body"
+
+def process_data(raw_data):
+    return {
+        "title": raw_data["title"],
+        "body": raw_data["body"]
+    }
+#🧠 Пошаговый разбор
+# Шаг	Что происходит
+# 1	Функция принимает raw_data (словарь из API)
+# 2	Создаётся новый словарь с двумя ключами
+# 3	raw_data["title"] — достаём заголовок
+# 4	raw_data["body"] — достаём текст
+# 5	Возвращается новый словарь
+
+# 📋 Задание 161 (fetch_post_data)-------------------------------------------------------------------------------------
+# Напиши функцию fetch_post_data(post_id, results, lock), которая:
+# 1. Принимает номер поста, общий список results и lock
+# 2. Делает GET-запрос к https://jsonplaceholder.typicode.com/posts/{post_id}
+# 3. Обрабатывает ответ через process_data()
+# 4. Добавляет результат в results с защитой lock
+# 5. Ловит ошибки через try-except
+
+import requests  # 1 Импортируем библиотеку для запросов к интернету.
+
+def fetch_post_data(post_id, results, lock):
+    # 2 post_id — номер поста (1, 2, 3...),общий список, куда складываем результаты,замок для защиты списка
+    url = f"https://jsonplaceholder.typicode.com/posts/{post_id}"
+    # 3 f"..." — f-строка, {post_id} — подставляется номер (например, 1), Получается: "https://jsonplaceholder.typicode.com/posts/1", Это адрес, по которому мы запрашиваем данные.
+    try:                                           # 4 Начинаем "опасную" часть. Всё, что внутри try, может вызвать ошибку (интернет может отвалиться, сайт может не ответить).
+        response = requests.get(url)
+        # 5 Отправляем GET-запрос на сайт
+        # Что такое GET: это метод HTTP-запроса. Ты говоришь сайту: "дай мне данные".
+        # response — это ответ от сайта. Внутри него — статус-код (200 = успех, 404 = не найдено) и данные.
+        response.raise_for_status()
+        # 6Проверяем статус-код.
+        # Если 200 — всё хорошо, идём дальше
+        #Если 404 или 500 — выбрасывает ошибку, и мы попадаем в except
+        #Зачем: чтобы не обрабатывать "пустые" ответы.
+        raw_data = response.json()
+        # 7 Превращаем ответ в словарь Python.
+        # Сайт возвращает JSON-строку. .json() превращает её в словарь:
+        # {"userId": 1, "id": 1, "title": "...", "body": "..."}
+        processed = process_data(raw_data)
+        # 8 Вызываем функцию process_data (задание 160), которая оставляет только title и body.
+        # processed = {"title": "...", "body": "..."}
+        with lock:
+            # 9Захватываем замок. Это защита от гонки данных.
+            #Почему нужно:
+            #10 потоков одновременно добавляют в results
+            #Без замка они могут перезаписать друг друга
+            #С замком — добавляют по очереди
+            results.append(processed)              # 10 Добавляем обработанные данные в общий список.
+    except requests.exceptions.RequestException as e:   # 11 Ловим ошибки. Если что-то пошло не так (нет интернета, сайт не ответил) — попадаем сюда. e — объект ошибки.
+        print(f"Ошибка: {e}")                      # 12 Печатаем ошибку, чтобы знать, что случилось.
+# 🧠 Аналогия
+# Представь, что ты курьер:
+
+#Шаг	Что делаешь
+# 1	Берёшь адрес (url)
+# 2	Едешь по адресу (requests.get)
+# 3	Проверяешь, что дверь открыта (raise_for_status)
+# 4	Забираешь посылку (response.json)
+# 5	Распаковываешь (process_data)
+# 6	Кладёшь в общий склад (results.append) — с замком (with lock), чтобы никто не мешал
+# 7	Если что-то не так — записываешь в журнал (print(f"Ошибка"))
+
+# 📋 Задание 162 (save_data_to_json)---------------------------------------------------------------------------------------
+# Напиши функцию save_data_to_json(data, filename), которая:
+# 1. Принимает список словарей и имя файла
+# 2. Сохраняет список в файл в формате JSON
+# 3. Использует indent=4 и ensure_ascii=False
+
+import json
+def save_data_to_json(data, filename):
+    with open(filename, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+# ensure_ascii=False: Без этого параметра русские буквы превратятся в \u041f\u0440\u0438\u0432\u0435\u0442
+# С ним — останутся читаемыми: Привет
+
+# 📋 Задание 163 (главная функция main — собираем всё вместе)-------------------------------------------------------------
+# Напиши функцию main(), которая:
+# 1. Создаёт пустой список results
+# 2. Создаёт lock = threading.Lock()
+# 3. Запускает 10 потоков (post_id от 1 до 10), каждый вызывает fetch_post_data
+# 4. Ждёт завершения всех потоков через join()
+# 5. Сохраняет результаты через save_data_to_json(results, "posts.json")
+
+import threading
+def  main():
+    results = []
+    lock = threading.Lock()
+    threads = []
+    for post_id in range(1, 11):
+        t = threading.Thread(target=fetch_post_data, args=(post_id, results, lock))
+        threads.append(t)
+        t.start()
+    for t in threads:
+        t.join()
+    save_data_to_json(results, "posts.json")
+    print(f"Скачано {len(results)} постов")
+if __name__ == "__main__":
+    main()
+
+# 📋 Задание 165 (закрепление — изменим проект)--------------------------------------------------------------------------
+# 1. Функция process_data(raw_data) — оставляет только title и body
+# 2. Функция fetch_post_data(post_id, results, lock) — скачивает пост через requests
+# 3. Функция save_data_to_json(data, filename) — сохраняет в JSON
+# 4. Функция main() — запускает 10 потоков и собирает результаты
+#
+# Используй:
+# - requests
+# - threading
+# - json
+# - Lock
+# Перепиши проект так, чтобы он скачивал не 10 постов, а 5.
+# И сохранял не в "posts.json", а в "my_posts.json".
+
+def process_data(raw_data):
+    return {
+        "body": raw_data["body"],
+        "title": raw_data["title"]
+    }
+import requests
+def fetch_post_data(post_id, results, lock):
+    url = f"https://jsonplaceholder.typicode.com/posts/{post_id}"
+    try:
+        responce = requests.get(url)
+        responce.raise_for_status()
+        raw_data = responce.json()
+        processed = process_data(raw_data)
+        with lock:
+            results.append(processed)
+    except requests.exceptions.RequestException as e:
+        print(f"Ошибка: {e}")
+import json
+def save_data_to_json(data, filename):
+    with open(filename, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+import threading
+def main():
+    results = []
+    lock = threading.Lock()
+    threads = []
+    for post_id in range(1, 6):
+        t = threading.Thread(target=fetch_post_data, args=(post_id, results, lock))
+        threads.append(t)
+        t.start()
+    for t in threads:
+        t.join()
+    save_data_to_json(results, "my_posts.json")
+    print(f"Скачано {len(results)} постов")
+if __name__ == "__main__":
+    main()
